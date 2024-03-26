@@ -30,13 +30,9 @@ require(ExactMed) # Methode regression exacte de Samoilenko et Lefebvre
 
 # Introduction/objectifs
 
-La pratique de l’activité physique est reconnue comme un facteur préventif des fractures ostéoporotiques. L’un des mécanismes par lequel il est supposé que l’activité physique réduit le risque de fracture est par le maintien et le renforcement de la densité minérale osseuse. Afin d'appréhender ce mécanisme, une étude observationnelle prospectives multi-centrique des fractures ostéoroporotiques (SOF) a été menées sur une cohorte cohorte de 10 366 femmes âgées de 65 ans ou plus qui ont été recrutées à partir de
-quatre régions métropolitaines des États-Unis : Baltimore, Pittsburgh, Minneapolis et Portland. En 1986, SOF a recruté 9704 femmes presque toutes caucasiennes. En 1997, 662
-femmes afro-américaines ont été ajoutées à la cohorte.
+La pratique de l’activité physique est reconnue comme un facteur préventif des fractures ostéoporotiques. L’un des mécanismes par lequel il est supposé que l’activité physique réduit le risque de fracture est par le maintien et le renforcement de la densité minérale osseuse. Afin d'appréhender ce mécanisme, une étude observationnelle prospective multi-centrique des fractures ostéoroporotiques (SOF) a été menées sur une cohorte cohorte de 10 366 femmes âgées de 65 ans ou plus qui ont été recrutées à partir de quatre régions métropolitaines des États-Unis : Baltimore, Pittsburgh, Minneapolis et Portland. En 1986, SOF a recruté 9 704 femmes presque toutes caucasiennes. En 1997, 662 femmes afro-américaines ont été ajoutées à la cohorte. Les données récoltées sur les 9 671 femmes caucasiennes récrutées en 1986 ont été rendues disponibles  par le biais d'un accord de concentement pour non diffusion et d'exploitation exclusive à des fins d'analyses.
 
-A cet effet, les données récoltées portant sur les 9 671 femmes caucasiennes récrutées en 1986 seront utilisées dans nos différentes analyses.
-
-l'objectif principal de cette étude est d’investiguer l’importance de l’effet intermédiaire de l’activité physique sur la densité osseuse dans l’effet de l’activité physique sur le risque de fractures. Plus spécifiquement, il sera question de décomposer l'effet total de l'activité physique sur le risque de fractures en effet direct et indirect. Ceci afin de répondre aux questions de recherches suivantes:
+l'objectif principal de cette étude est d’investiguer l’importance de l’effet intermédiaire de l’activité physique sur la densité osseuse dans l’effet de l’activité physique sur le risque de fractures. Plus spécifiquement, il sera question de décomposer l'effet total de l'activité physique sur le risque de fractures en effet direct et indirect. Ceci afin de répondre aux questions de recherche suivantes:
 
 \begin{itemize}
 
