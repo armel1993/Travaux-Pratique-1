@@ -1,13 +1,16 @@
 ---
 title: "Travaux Pratique 1"
 format: pdf
+keep_tex: true
 author: "Armel Bakop Kamdem et EL Mehdi Nkhili"
 editor: visual
 ---
 
-## Librairies :
+```{r include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
 
-```{r}
+```{r }
 library(sas7bdat)
 library(haven)
 library(tableone)
@@ -27,195 +30,135 @@ require(ExactMed) # Methode regression exacte de Samoilenko et Lefebvre
 
 # Introduction/objectifs
 
-Considérez les données *sof_tp1.Rdata* ou *sof_tp1.sas7bdat*. Il s’agit de données concernant l’étude *Study of Osteoporotic Fractures (SOF)*. L’étude SOF est une étude observationnelle prospective multi-centrique d’une cohorte de 10 366 femmes âgées de 65 ans ou plus qui ont été recrutées à partir de quatre régions métropolitaines des États-Unis : Baltimore, Pittsburgh, Minneapolis et Portland. En 1986, SOF a recruté 9704 femmes presque toutes caucasiennes. En 1997, 662 femmes afro-américaines ont été ajoutées à la cohorte. Les données dont vous disposez concernent les 9671 femmes caucasiennes recrutées en 1986. Seules des informations récoltées au recrutement en 1986 ainsi que le suivi sur 5 ans des fractures à différents sites sont considérées pour ce projet. **Afin de respecter les conditions d’accès à ces données, je vous demande de ne pas transférer ou diffuser les données à d’autres personnes.**
+La pratique de l’activité physique est reconnue comme un facteur préventif des fractures ostéoporotiques. L’un des mécanismes par lequel il est supposé que l’activité physique réduit le risque de fracture est par le maintien et le renforcement de la densité minérale osseuse. Afin d'appréhender ce mécanisme, une étude observationnelle prospectives multi-centrique des fractures ostéoroporotiques (SOF) a été menées sur une cohorte cohorte de 10 366 femmes âgées de 65 ans ou plus qui ont été recrutées à partir de
+quatre régions métropolitaines des États-Unis : Baltimore, Pittsburgh, Minneapolis et Portland. En 1986, SOF a recruté 9704 femmes presque toutes caucasiennes. En 1997, 662
+femmes afro-américaines ont été ajoutées à la cohorte.
 
-La pratique de l’activité physique est reconnue comme un facteur préventif des fractures ostéoporotiques. L’un des mécanismes par lequel il est supposé que l’activité physique réduit le risque de fracture est par le maintien et le renforcement de la densité minérale osseuse. L’objectif principal de votre étude est d’investiguer l’importance de l’effet intermédiaire de l’activité physique sur la densité osseuse dans l’effet de l’activité physique sur le risque de fractures.
+A cet effet, les données récoltées portant sur les 9 671 femmes caucasiennes récrutées en 1986 seront utilisées dans nos différentes analyses.
 
-Les femmes non caucasiennes étaient trop peu nombreuses pour être efficacement considérées dans le cadre de votre travail.
+l'objectif principal de cette étude est d’investiguer l’importance de l’effet intermédiaire de l’activité physique sur la densité osseuse dans l’effet de l’activité physique sur le risque de fractures. Plus spécifiquement, il sera question de décomposer l'effet total de l'activité physique sur le risque de fractures en effet direct et indirect. Ceci afin de répondre aux questions de recherches suivantes:
 
-# Méthodologie 
+\begin{itemize}
 
-.....
+\item Quel est l'effet de l'activité physique sur le risque de fractures qui ne passe pas par la densité osseuse ?
 
-# Résultats Obtenus
+\item Quelle portion de l'effet total de l'activité physique sur le risque de fractures serait éliminée si la densité osseuse devient supérieure à 0.5 g/m² (absence d'ostréoporose) ?
 
-## Importation des données :
+\item Quelle sont les effets direct et indirect naturel de l'activité physique sur le risque de fractures ?
+
+\end{itemize}
+
+Notre travail s'articule en trois grandes parties. Tout d'abord, une description exhaustive des variables et des analyses statistiques effectuées sera présentée. Ensuite, les principaux résultats obtenus seront succintement exposées. Enfin, des discussions sur les différents résultats dans le contexte de l'étude seront faites.
+
+# Méthodologie
 
 ```{r}
 df= read.csv('sof_tp1.csv')
-head(df)
 str(df)
 ```
 
-L'objectif général est d'estimer l'effet de cesser de fumer (*A*) sur le risque de décès dans les 10 prochaines années.
+..description des variables et des analyses effectuées
 
-***L*** **=** {AGE, SEX, INCOME2, DX_PULM, PACK_YEARS}
+# Résultats
 
-## 1. Statistiques Descriptives
+......
 
-Transformons les variables
+```{r echo=FALSE}
 
-```{r}
-df$sex = as.factor(df$sex)
-#df$qsmk = as.factor(df$qsmk)
-df$dx_pulm = as.factor(df$dx_pulm)
 ```
 
-```{r}
-#install.packages('tableone')
-print(CreateTableOne(vars = c('age', 'sex', 'INCOME2', 'dx_pulm', 'pack_years'),strata = "qsmk", data = df ), 
-      test = FALSE, smd = TRUE)
-```
-
-### Remarque:
-
-Il y a un débalancement pour les variables : sexe, dx_pulm. Il y a manque de positivité.
-
-On note aussi que la différence de moyennes standardisées entre les traités et les non-traités selon le niveau de revenu familial et le nombre de packets-années de cigarettes fumées est inférieure à 0,1. Donc les groupes ne sont pas différents pour ces deux variables.
-
-### 2. Estimation des effets 
+## 1. Statistiques descriptives
 
 ```{r}
-# Association brute (non ajustee)
-mod1 = lm(death ~ qsmk, data = df)
-summary(mod1)
-```
-
-```{r}
-confint(mod1)
-```
-
-En moyenne, la différence de risque brute de décés entre les traités et les non-traités est de positive. Ainsi, la cessation tabagiste serait associée à un risque plus accru de décès. L'intervalle de confiance montre que nos données sont compatibles avec une augmentation de la différence de risque de décés entre les personnes qui ont cessé de fumer et celles ayant continuées allant de 1,13% à 9,45 %. Ce qui semble assez important.
-
-## Standardisation:
-
-### 3. Modéle logistique :
-
-```{r}
-mod2 = glm(death ~ qsmk + age + sex + INCOME2 + dx_pulm + pack_years, family= binomial(link = 'logit'), data = df)
-summary(mod2)
-```
-
-### Vérification des hypothèses du modèle :
-
-```{r}
-influence.measures(mod2) # On observe la ou y a les etoiles
-plot(cooks.distance(mod2))
 
 
 ```
 
-```{r}
-# Aucune observation ne semble se demarquer avec des valeurs > 0.02
-df$seqn[which(cooks.distance(mod2)>0.02)]
+......
 
-```
-
-Il ne semble pas y avoir de données influentes.
-
-```{r}
-# test de hosmer avec le package blorr
-# Pour valider l'adéquation du modèle à nos données
-blr_test_hosmer_lemeshow(mod2)
-```
-
-Au seuil de 5%, il y'a pas d'évidence contre l'hypothèse selon laquelle le modèle conçu serait à l'origine des données observées (valeurp=0,586).\
-
-### 4. Calculons la différence de moyennes (risque) standardisées :
-
-```{r}
-EDMS = stdGlm(mod2, data = df, X = "qsmk")
-summary(EDMS, contrast= 'difference', reference=0)
-```
-
-Lorsqu'on ajuste pour les covariables on se rapproche d'un effet causal, contrairement à losrqu'on ne les inclut pas dans le modèle. Ici on remarque que nos données sont compatible à la fois à un effet protecteur et à un effet néfaste qui varie de -0.0418 à 0.0263.
-
-## Pondération :
-
-### 5. Modèle logistique pour prédire le score de propension en fonction de L
-
-```{r}
-mod3 = glm(qsmk ~ age + sex + INCOME2 + dx_pulm + pack_years, family= binomial(link = 'logit'), data = df)
-summary(mod3)
-```
-
-### 6. Calculons les poids wi et leurs statitistiques desriptives:
-
-```{r}
-w1 = df$qsmk/mod3$fit + (1 - df$qsmk)/(1 - mod3$fit)
-summary(w1/sum(w1)) 
-
-```
-
-Une personne compte au maximum pour 0,2% de nos données. Il n'y a donc pas de poids extrêmes, nous n'avons pas besoin de tronquer des poids.
-
-```{r}
-boxplot(mod3$fit~df$qsmk, ylab = "P(A=1|L)", xlab = "cessation", ylim = c(0,1))
-```
-
-On constate que la pondération équilibre bien les deux groupes, les distributions des scores de propension estimées dans les deux groupes sont semblables.
-
-### 7. Statistiques descriptives (population fictive)
-
-```{r}
-w1.ds = svydesign(id=~1, weights = w1, data = df)
-print(svyCreateTableOne(vars =c('age', 'sex', 'INCOME2', 'dx_pulm', 'pack_years'),
-                        strata = "qsmk", data = w1.ds), test = FALSE, smd = TRUE)
-```
-
-Les groupes sont bien équilibrés avec les données pondérées. Tous les DMS sont inférieurs à la valeur 0,1. Les effectifs, moyennes et écart-type entre les deux groupes sont proches pour chaque covariables.
-
-### 8. Estimation de l'effet causal:
-
-```{r}
-modYw1 = summary(geeglm(death ~ qsmk, data = df, weights = w1, id = 1:nrow(df), family = "binomial"))
-
-cat("Différence de moyenne estimée:",c(modYw1$coef[2,1]),"\n")
-cat("Intervalle de confiance: (", modYw1$coef[2,1] - 1.96*modYw1$coef[2,2], modYw1$coef[2,1] + 1.96*modYw1$coef[2,2],')')
-```
-
-### IC robuste :
-
-```{r}
-ps.formule2 = qsmk ~ age + sex + INCOME2 + dx_pulm + pack_years
-resultats2 = PSweight(ps.formula = ps.formule2, yname = "death",
-                      data = df, weight = "IPW")
-summary(resultats2)
-```
-
-L'effet causal moyen estimé est positif donc en moyenne les fumeurs ayant cessé de fumer ont plus de risque de mourir par rapport à ceux qui fument toujours. toutefois, l'intervalle de confiance contient des valeur négatives. Donc nos données sont compatibles avec un effet protecteur et avec un effet néfaste de la cessation tabagique sur le risque de décès.
-
-## 9. Estimation par appariement :
-
-### appariement simple
-
-```{r}
-apparie10 = with(df, Match(Y = death, Tr = qsmk, 
-                            X = cbind(age,sex,INCOME2,dx_pulm,pack_years),replace = TRUE, estimand = "ATE", ties = TRUE, M = 5, BiasAdjust = TRUE,Var.calc = 1, version = "standard",caliper = 0.25))
-
-c(apparie10$est,apparie10$est-1.96*apparie10$se,apparie10$est+1.96*apparie10$se)
-                
-```
-
-### Selon le score de propension
-
-En utilisant le modèle mod3 de la question 5.
+### 2. Mesures d'association brutes
 
 ```{r}
 
-apparieProp = with(df, Match(Y = death, Tr = qsmk, 
-                              X = plogis(mod3$fit),
-                              replace = TRUE, estimand = "ATE", ties =TRUE, M = 5,Var.calc = 1, version = "standard"),caliper = 0.25)
 
-c(apparieProp$est,apparieProp$est-1.96*apparieProp$se,apparieProp$est+1.96*apparieProp$se)
 ```
 
-## 10. Interprétations
+.....
 
-L'effet causal moyen estimé par standardisation indique une association négative de la cessation tabagique au risque de décès: -0.77% (-4.18%,2.63%). Les estimations par pondération: 0.04% (-3.55,3.62) et par appariement : 0.29% (-3.94%,4.52%) indiquent un effet positive de ce dernier sur le risque de décès. Toutefois, les intervalles de confiance des trois méthodes sont semblables et compatibles à un effet protecteur et néfaste de la cessation tabagique sur le risque de décès dans les 10 prochaines années.
+## 3. Analyse de médiation
+
+....
+
+```{r}
+
+
+```
+
+.....
+
+### 3.2 Estimation de l'effet direct contrôlé
+
+.....
+
+### 3.2.1 Vérification des hypothèses
+
+....
+
+```{r}
+
+
+
+
+```
+
+....
+
+### 3.2.3 Estimation et interprétation
+
+```{r}
+
+
+```
+
+\
+.....
+
+### 3.3 Estimation de l'effet direct et indirect naturel
+
+.....
+
+### 3.3.1 Vérification des hypothèses
+
+```{r}
+
+
+
+```
+
+.....
+
+### 3.3.3 Estimation et interprétation
+
+```{r}
+
+
+```
+
+....
+
+### 3.4 Analyse de sensibilité
+
+```{r}
+
+
+```
+
+......
 
 # Discussions
 
 ....
 
 # Conclusion
+
+.....
