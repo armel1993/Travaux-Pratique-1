@@ -37,7 +37,7 @@ Les femmes non caucasiennes étaient trop peu nombreuses pour être efficacement
 
 .....
 
-# Résultats
+# Résultats Obtenus
 
 ## Importation des données :
 
@@ -51,7 +51,7 @@ L'objectif général est d'estimer l'effet de cesser de fumer (*A*) sur le risqu
 
 ***L*** **=** {AGE, SEX, INCOME2, DX_PULM, PACK_YEARS}
 
-## 1. Statistiques Descriptives :
+## 1. Statistiques Descriptives
 
 Transformons les variables
 
@@ -73,7 +73,7 @@ Il y a un débalancement pour les variables : sexe, dx_pulm. Il y a manque de po
 
 On note aussi que la différence de moyennes standardisées entre les traités et les non-traités selon le niveau de revenu familial et le nombre de packets-années de cigarettes fumées est inférieure à 0,1. Donc les groupes ne sont pas différents pour ces deux variables.
 
-### 2. Estimation et interprétation :
+### 2. Estimation des effets 
 
 ```{r}
 # Association brute (non ajustee)
